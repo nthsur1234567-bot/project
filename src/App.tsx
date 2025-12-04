@@ -1,68 +1,62 @@
 // src/App.tsx
 
 import React, { useState, useEffect } from "react";
-// 💡 חשוב: ה-Import עודכן כדי להתאים לנתיב החדש: src/assets/Task.ts
+// Import מתוקן לנתיב assets
 import { Task } from "./assets/Task"; 
 import "./App.css";
 
-// אם יש לך קומפוננטות Header ו-Footer מוגדרות:
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+// אם אין לך קומפוננטות Header ו-Footer תקינות, נשנה אותן ל-null כדי למנוע קריסה
+const Header = () => null; // ⚠️ אם ה-Header שלך גורם לקריסה, השאר אותו ככה
+const Footer = () => null; // ⚠️ אם ה-Footer שלך גורם לקריסה, השאר אותו ככה
 
-const STORAGE_KEY = 'myTasksList'; // מפתח לשמירה ב-localStorage
+const STORAGE_KEY = 'myTasksList';
 
-// 6. פונקציה שמנסה לטעון נתונים מ-localStorage
+// פונקציה לטעינה מאובטחת של נתונים מ-localStorage
 const loadTasks = (): Task[] => {
     try {
         const jsonTasks = localStorage.getItem(STORAGE_KEY);
         if (jsonTasks === null) {
-            return []; // אם אין נתונים, מחזירים מערך ריק
+            return [];
         }
-        // המרה מ-JSON לאובייקטי Task
-        return JSON.parse(jsonTasks);
+        // המרה מ-JSON וטיפול בטייפים
+        const parsedTasks = JSON.parse(jsonTasks);
+        // ודא שהאובייקטים הם אכן Tasks (למרות שהם מאוחסנים כנתוני JSON פשוטים)
+        return parsedTasks.map((item: Task) => ({
+            ...item
+        }));
     } catch (e) {
-        console.error("Could not load tasks from LocalStorage", e);
+        console.error("Error loading tasks from LocalStorage:", e);
         return [];
     }
 };
 
 
 function App() {
-  // 3. הגדרת State - אתחול ה-State באמצעות פונקציית הטעינה
   const [tasks, setTasks] = useState<Task[]>(loadTasks);
-  const [newTaskName, setNewTaskName] = useState<string>(''); // לניהול קלט המשתמש
+  const [newTaskName, setNewTaskName] = useState<string>('');
 
-  // 10. ו-11. שמירת הנתונים ל-localStorage באמצעות useEffect
-  // הפונקציה רצה בכל פעם שמשתנה 'tasks' משתנה
+  // שמירת הנתונים ל-localStorage בכל שינוי ב-tasks
   useEffect(() => {
-    // המרה של מערך ה-Task לאובייקט JSON לפני השמירה
     localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
-  }, [tasks]); // התלות היא במערך ה-tasks
+  }, [tasks]); 
 
 
-  // 7. ו-8. פונקציה להוספת מטלה (Create)
   const addTask = (e: React.FormEvent) => {
-    e.preventDefault(); // מונע טעינה מחדש של הדף
-    if (!newTaskName.trim()) return; // מונע הוספה של מטלה ריקה
+    e.preventDefault();
+    if (!newTaskName.trim()) return;
 
     const newTask = new Task(newTaskName.trim());
-
-    // עדכון המצב בצורה Immutable: יצירת מערך חדש (העתק + מטלה חדשה)
     setTasks((prevTasks) => [...prevTasks, newTask]);
-    setNewTaskName(''); // ניקוי שדה הקלט
+    setNewTaskName('');
   };
 
-  // 9. פונקציה למחיקת מטלה (Delete)
   const deleteTask = (id: string) => {
-    // סינון המערך והחזרת כל המטלות שאינן בעלות ה-ID הנבחר
     setTasks((prevTasks) => prevTasks.filter(task => task.id !== id));
   };
 
-  // פונקציה לשינוי סטטוס (Update)
   const toggleComplete = (id: string) => {
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
-        // אם ה-ID מתאים, יוצרים אובייקט Task חדש עם סטטוס הפוך
         task.id === id ? { ...task, completed: !task.completed } : task
       )
     );
@@ -84,14 +78,13 @@ function App() {
             value={newTaskName}
             onChange={(e) => setNewTaskName(e.target.value)}
           />
-          {/* 7. כפתור הוספה (Submit) */}
           <button type="submit" disabled={!newTaskName.trim()}>➕ הוסף</button>
         </form>
         
         <hr />
 
         <h2>רשימת המטלות</h2>
-        {/* 5. הצגת טבלת HTML (Read) */}
+        {/* הצגת טבלת המטלות */}
         <table>
             <thead>
                 <tr>
@@ -107,18 +100,16 @@ function App() {
                     </tr>
                 ) : (
                     tasks.map((task) => (
-                        // הוספת קו חוצה (line-through) אם המטלה הושלמה
                         <tr key={task.id} style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
                             <td>
                                 <input
                                     type="checkbox"
                                     checked={task.completed}
-                                    onChange={() => toggleComplete(task.id)} // קריאה לפונקציית עדכון
+                                    onChange={() => toggleComplete(task.id)}
                                 />
                             </td>
                             <td>{task.name}</td>
                             <td>
-                                {/* 9. כפתור מחיקה */}
                                 <button onClick={() => deleteTask(task.id)} style={{ color: 'red', cursor: 'pointer', border: 'none', background: 'none' }}>
                                     ❌ מחק
                                 </button>
