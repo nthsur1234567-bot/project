@@ -1,5 +1,3 @@
-// src/assets/Task.ts
-
 export class Task {
   public id: string;
   public name: string;
@@ -7,10 +5,11 @@ export class Task {
   public createdAt: string;
 
   constructor(name: string) {
-    // יצירת מזהה ייחודי פשוט (UUID)
-    this.id = Date.now().toString() + Math.random().toString(36).substring(2, 9);
+    this.id =
+      Date.now().toString() +
+      Math.random().toString(36).substring(2, 9);
     this.name = name;
-    this.completed = false; // ברירת מחדל: לא הושלמה
+    this.completed = false;
     this.createdAt = new Date().toISOString();
   }
 }
