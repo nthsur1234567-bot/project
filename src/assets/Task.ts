@@ -7,10 +7,10 @@ export class Task {
   public createdAt: string;
 
   constructor(name: string) {
-    // יצירת מזהה ייחודי פשוט
+    // יצירת מזהה ייחודי פשוט (UUID)
     this.id = Date.now().toString() + Math.random().toString(36).substring(2, 9);
     this.name = name;
-    this.completed = false;
+    this.completed = false; // ברירת מחדל: לא הושלמה
     this.createdAt = new Date().toISOString();
   }
 }
