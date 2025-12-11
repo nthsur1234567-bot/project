@@ -1,18 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Task } from "./assets/Task";
 import "./App.css";
-
-const Header: React.FC = () => (
-  <header className="app-header">
-    <h1>מנהל משימות</h1>
-  </header>
-);
-
-const Footer: React.FC = () => (
-  <footer className="app-footer">
-    <small>נבנה על ידי יהונתן 💻</small>
-  </footer>
-);
+import { Task } from "./assets/Task";
 
 const STORAGE_KEY = "myTasksList";
 
@@ -48,7 +36,7 @@ const App: React.FC = () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
   }, [tasks]);
 
-  const addTask = (e: React.FormEvent) => {
+  const addTask = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!newTaskName.trim()) return;
 
@@ -71,7 +59,9 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      <Header />
+      <header className="app-header">
+        <h1>מנהל משימות</h1>
+      </header>
 
       <main>
         <h2>ניהול משימות (Task Manager)</h2>
@@ -87,7 +77,7 @@ const App: React.FC = () => {
             ➕ הוסף
           </button>
         </form>
-        
+
         <hr />
 
         <h2>רשימת המטלות</h2>
@@ -103,7 +93,10 @@ const App: React.FC = () => {
           <tbody>
             {tasks.length === 0 ? (
               <tr>
-                <td colSpan={3} style={{ textAlign: "center", fontStyle: "italic" }}>
+                <td
+                  colSpan={3}
+                  style={{ textAlign: "center", fontStyle: "italic" }}
+                >
                   אין מטלות כרגע. אנא הוסף מטלה חדשה!
                 </td>
               </tr>
@@ -143,7 +136,9 @@ const App: React.FC = () => {
         </table>
       </main>
 
-      <Footer />
+      <footer className="app-footer">
+        <small>נבנה על ידי יהונתן 💻</small>
+      </footer>
     </div>
   );
 };
