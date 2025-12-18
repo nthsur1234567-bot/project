@@ -11,7 +11,7 @@ export type UserRow = { // comment: type for one row saved in storage
   createdAt: number; // comment: creation timestamp
 }; // comment: end type
 
-const STORAGE_KEY = "forms_users_v1"; // comment: local storage key
+export const STORAGE_KEY = "forms_users_v1"; // comment: local storage key (exported)
 
 type FormState = Omit<UserRow, "id" | "createdAt">; // comment: form fields only
 
@@ -41,11 +41,18 @@ const saveRows = (rows: UserRow[]): void => { // comment: save rows to local sto
   localStorage.setItem(STORAGE_KEY, JSON.stringify(rows)); // comment: stringify and store
 }; // comment: end saveRows
 
+const generateId = (): string => { // comment: generate id with fallback
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) { // comment: check randomUUID support
+    return crypto.randomUUID(); // comment: generate uuid
+  } // comment: end if
+  return `${Date.now()}_${Math.random().toString(16).slice(2)}`; // comment: fallback id
+}; // comment: end generateId
+
 const validate = (form: FormState): ErrorsState => { // comment: validate fields and return errors
   const errors: ErrorsState = {}; // comment: init empty errors
 
   if (!form.fullName.trim()) errors.fullName = "Full name is required"; // comment: required name
-  if (form.fullName.trim().length > 40) errors.fullName = "Max 40 characters"; // comment: length limit
+  else if (form.fullName.trim().length > 40) errors.fullName = "Max 40 characters"; // comment: length limit
 
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()); // comment: basic email regex
   if (!form.email.trim()) errors.email = "Email is required"; // comment: required email
@@ -92,7 +99,7 @@ const UserForm: React.FC<Props> = ({ onSaved }) => { // comment: user form compo
 
     const rows = loadRows(); // comment: read existing rows
     const newRow: UserRow = { // comment: create new row
-      id: crypto.randomUUID(), // comment: unique id (modern browsers)
+      id: generateId(), // comment: unique id (safe fallback)
       fullName: form.fullName.trim(), // comment: sanitized name
       email: form.email.trim(), // comment: sanitized email
       phone: form.phone.trim(), // comment: sanitized phone
@@ -122,6 +129,7 @@ const UserForm: React.FC<Props> = ({ onSaved }) => { // comment: user form compo
           error={Boolean(errors.fullName)} // comment: MUI error flag
           helperText={errors.fullName || "Enter up to 40 characters"} // comment: message under input
           fullWidth // comment: stretch
+          required // comment: show * and indicate required
         />
 
         <TextField
@@ -132,6 +140,7 @@ const UserForm: React.FC<Props> = ({ onSaved }) => { // comment: user form compo
           error={Boolean(errors.email)} // comment: error flag
           helperText={errors.email || "example@domain.com"} // comment: helper
           fullWidth // comment: full width
+          required // comment: required marker
         />
 
         <TextField
@@ -142,6 +151,7 @@ const UserForm: React.FC<Props> = ({ onSaved }) => { // comment: user form compo
           error={Boolean(errors.phone)} // comment: error flag
           helperText={errors.phone || "9-10 digits"} // comment: helper
           fullWidth // comment: full width
+          required // comment: required marker
         />
 
         <TextField
@@ -152,6 +162,7 @@ const UserForm: React.FC<Props> = ({ onSaved }) => { // comment: user form compo
           error={Boolean(errors.age)} // comment: error flag
           helperText={errors.age || "12-120"} // comment: helper
           fullWidth // comment: full width
+          required // comment: required marker
         />
 
         <TextField
@@ -162,6 +173,7 @@ const UserForm: React.FC<Props> = ({ onSaved }) => { // comment: user form compo
           error={Boolean(errors.city)} // comment: error flag
           helperText={errors.city || "Your city"} // comment: helper
           fullWidth // comment: full width
+          required // comment: required marker
         />
 
         <Button type="submit" variant="contained" disabled={!isValid}> {/* comment: submit button */}
@@ -173,4 +185,3 @@ const UserForm: React.FC<Props> = ({ onSaved }) => { // comment: user form compo
 }; // comment: end component
 
 export default UserForm; // comment: export
-export { STORAGE_KEY }; // comment: export key so table can use it
