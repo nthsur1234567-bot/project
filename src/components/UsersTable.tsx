@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"; // comment: react + hooks
 import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Stack } from "@mui/material"; // comment: MUI table
-import { STORAGE_KEY, UserRow } from "./UserForm"; // comment: import storage key + type
+import { STORAGE_KEY, type UserRow } from "./UserForm"; // comment: import key + type-only
 
 const loadRows = (): UserRow[] => { // comment: read rows helper
   try { // comment: protect from errors
