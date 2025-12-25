@@ -1,7 +1,6 @@
 import React from "react"; // comment: react import
 import { Routes, Route, Navigate } from "react-router-dom"; // comment: routing tools
 import Header from "./components/Header"; // comment: global header
-import Management from "./pages/Management";
 import Home from "./pages/Home"; // comment: dashboard page
 import Forms from "./pages/Forms"; // comment: forms page
 import Help from "./pages/Help"; // comment: help page
@@ -16,7 +15,6 @@ const App: React.FC = () => { // comment: app component
       <Header /> {/* comment: global app bar + drawer */}
       <Routes> {/* comment: app routes */}
         <Route path="/" element={<Home />} /> {/* comment: home route */}
-        <Route path="/management" element={<Management />} />
         <Route path="/forms" element={<Forms />} /> {/* comment: forms route */}
         <Route path="/help" element={<Help />} /> {/* comment: help route */}
         <Route path="/courses" element={<Courses />} /> {/* comment: courses route */}
