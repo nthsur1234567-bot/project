@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useMemo } from "react"; // react
 import {
   Card,
@@ -9,6 +10,13 @@ import {
 import Grid from "@mui/material/Grid2"; // ✅ Grid החדש
 import { useNavigate } from "react-router-dom"; // navigation
 import PageLayout from "../components/PageLayout"; // layout
+=======
+import React, { useMemo } from "react"; // comment: react
+import { Box, Card, CardContent, Typography, Button, Stack } from "@mui/material"; // comment: MUI
+import Grid from "@mui/material/Grid";
+import { useNavigate } from "react-router-dom"; // comment: navigation
+import PageLayout from "../components/PageLayout"; // comment: layout
+>>>>>>> 806ce5ee967a5a48a821ce7765b88f245b137aad
 
 // localStorage keys
 const COURSES_KEY = "courses_v1";

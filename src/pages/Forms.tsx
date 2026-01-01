@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, Divider, Stack, Typography } from "@mui/material";
+import { Box, Button, Divider, Stack } from "@mui/material";
 import PageLayout from "../components/PageLayout";
 import UserForm from "../components/UserForm";
 import UsersTable from "../components/UsersTable";
