@@ -1,5 +1,6 @@
 import React, { useMemo } from "react"; // comment: react
-import { Box, Card, CardContent, Typography, Grid, Button, Stack } from "@mui/material"; // comment: MUI
+import { Box, Card, CardContent, Typography, Button, Stack } from "@mui/material"; // comment: MUI
+import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom"; // comment: navigation
 import PageLayout from "../components/PageLayout"; // comment: layout
 
@@ -40,7 +41,7 @@ const Home: React.FC = () => {
       </Typography>
 
       <Grid container spacing={2} sx={{ mb: 4 }}>
-        <Grid item xs={12} md={4}>
+        <Grid xs={12} md={4}>
           <Card>
             <CardContent>
               <Typography color="text.secondary">Courses</Typography>
@@ -49,7 +50,7 @@ const Home: React.FC = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid xs={12} md={4}>
           <Card>
             <CardContent>
               <Typography color="text.secondary">Teachers</Typography>
@@ -58,7 +59,7 @@ const Home: React.FC = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid xs={12} md={4}>
           <Card>
             <CardContent>
               <Typography color="text.secondary">Files</Typography>

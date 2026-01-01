@@ -18,8 +18,6 @@ import PersonIcon from "@mui/icons-material/Person"; // comment: teachers icon
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile"; // comment: files icon
 import DescriptionIcon from "@mui/icons-material/Description"; // comment: forms icon
 import HelpIcon from "@mui/icons-material/Help"; // comment: help icon
-import SettingsIcon from "@mui/icons-material/Settings"; // comment: management icon
-
 const Header: React.FC = () => { // comment: header component
   const [open, setOpen] = useState<boolean>(false); // comment: drawer state
   const navigate = useNavigate(); // comment: router navigate

@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "DUMMY",
@@ -8,12 +8,4 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-export async function addUserToFirestore() {
-  await setDoc(doc(db, "users", "123456789"), {
-    fullName: "may dor",
-    email: "may@gmail.com",
-    role: "student",
-  });
-}
+export const db = getFirestore(app);
